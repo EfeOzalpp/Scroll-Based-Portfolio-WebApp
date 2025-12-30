@@ -1,3 +1,4 @@
+// src/components/book-component/types.ts
 export type ImageDemanded = {
   title?: string;
   alt?: string;
@@ -16,9 +17,9 @@ export type DragItem = {
   // 0..1 (0 far, 1 near)
   depth: number;
 
-  // scale that never degrades quality (we'll request higher res)
+  // rendered size proxy
   baseScale: number;
 
-  // quantized band for z-index (derived from depth)
+  // quantized band for z-index
   zBand: number;
 };

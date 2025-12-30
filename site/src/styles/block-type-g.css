@@ -119,9 +119,11 @@ body.game-mode-active .project-pane#block-game {z-index: 10000; position: relati
   .block-g-exit h4 { padding-left: 0.4em; padding-right: 0.4em; }
   .block-type-g { height: 92dvh !important; }
   .coin { width: 12em; } 
-  .gameover-text-area {bottom: 144px;}
+  .gameover-text-area {bottom: 168px;}
   .gameover-lottie {width: calc(100% + 24em); margin-top: -144px;}
-    .countdown-lottie  {transform: scale(0.8);}
+  .countdown-lottie  {transform: scale(0.8);}
+  .high-score {padding: 12px 16px;}
+  .gameover-coin-count {margin-bottom: -16px;}
 }
 
 @media (min-width: 1025px) {

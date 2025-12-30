@@ -1,52 +1,41 @@
 import { useEffect, useState } from 'react';
-import client from '../../utils/sanity';
+import { getProjectData } from '../../utils/get-project-data';
 import MediaLoader from '../../utils/media-providers/media-loader';
 import PannableViewport from '../../utils/split+drag/pannable-object-position';
 import { useTooltipInit } from '../../utils/tooltip/tooltipInit';
-import { useSsrData } from '../../utils/context-providers/ssr-data-context';
 import { getHighQualityImageUrl } from '../../utils/media-providers/image-builder';
 import '../../styles/block-type-1.css';
 
 type VideoSet = { webmUrl?: string; mp4Url?: string; poster?: any };
 type MediaSlot = { alt?: string; image?: any; video?: VideoSet };
-type DataVizData = { mediaOne: MediaSlot };
+
+type DataVizData = {
+  mediaOne?: MediaSlot;
+  mediaTwo?: MediaSlot;
+};
 
 export default function DataVisualizationBlock() {
-  const ssrData = useSsrData();
-  const [data, setData] = useState<DataVizData | null>(
-    (ssrData?.preloaded?.dataviz as DataVizData) || null
-  );
+  const [data, setData] = useState<DataVizData | null>(null);
+  const [isVertical, setIsVertical] = useState(window.innerHeight > window.innerWidth);
 
   useTooltipInit();
 
   useEffect(() => {
-    if (data) return;
-    client
-      .fetch<DataVizData>(
-        `*[_type == "mediaBlock" && slug.current == $slug][0]{
-          mediaOne{
-            alt,
-            image,
-            video{
-              "webmUrl": webm.asset->url,
-              "mp4Url": mp4.asset->url,
-              poster
-            }
-          }
-        }`,
-        { slug: 'data-viz' }
-      )
-      .then(setData)
-      .catch((err) => {
-        console.warn('[DataVisualizationBlock] GROQ fetch failed:', err);
-        setData(null);
-      });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    getProjectData<DataVizData>('data-viz').then((d) => setData(d));
+  }, []);
 
-  if (!data?.mediaOne) return null;
+  useEffect(() => {
+    const onResize = () => setIsVertical(window.innerHeight > window.innerWidth);
+    window.addEventListener('resize', onResize, { passive: true });
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
-  const { alt = 'Data Visualization', image, video } = data.mediaOne;
+  const selectedMedia = isVertical && data?.mediaTwo ? data.mediaTwo : data?.mediaOne;
+  if (!selectedMedia) return null;
+
+  const { alt = 'Data Visualization', image, video } = selectedMedia;
   const isVideo = Boolean(video?.webmUrl || video?.mp4Url);
+
   const highPoster = video?.poster
     ? getHighQualityImageUrl(video.poster, 1920, 90)
     : undefined;
@@ -54,6 +43,7 @@ export default function DataVisualizationBlock() {
   return (
     <section
       className="block-type-1"
+      id="no-ssr"
       style={{ position: 'relative', width: '100%', height: '100dvh', overflow: 'hidden' }}
     >
       <div

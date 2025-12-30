@@ -17,12 +17,12 @@
 .view-project-btn { position: relative; overflow: hidden; background-color: transparent; display: flex; align-items: center; color: #f0f0f0; border: none; cursor: pointer; pointer-events: all; transition: gap 0.1s ease; padding: 8px 32px 4px 32px; }
 .view-project-btn > * { position: relative; z-index: 1; }
 a.view-project-btn { -webkit-appearance: none; appearance: none; background: transparent; border: 0; box-sizing: border-box; display: inline-flex; align-items: center; text-decoration: none; font: inherit; line-height: 1; }
-button.view-project-btn { -webkit-appearance: none; appearance: none; background: transparent; border: 0; box-sizing: border-box; display: inline-flex; align-items: center; text-decoration: none; font: inherit; line-height: 1; }
+button.view-project-btn { -webkit-appearance: none; appearance: none; background: transparent; border: 0; box-sizing: border-box; display: inline-flex; align-items: center; text-decoration: none; font: inherit; line-height: 1; gap: 16px;}
 .view-project-background { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); opacity: 1; transition: opacity 0.2s ease, backdrop-filter 0.2s ease; }
 .view-project-background.no-bg { backdrop-filter: none; -webkit-backdrop-filter: none; opacity: 0; background-color: transparent; }
 .view-project-btn h2 { text-shadow: 0px 0px 24px rgb(29 29 33); }
 .view-project-icon { width: 1.25rem; height: 1.25rem; }
-.view-project-arrow { width: 2.8em; }
+.view-project-arrow { width: 2.4em; }
 .arrow-svg { filter: drop-shadow(0 0px 8px rgba(0, 0, 0, 0.6)); }
 
 /* Hover styles */
@@ -65,9 +65,9 @@ button.view-project-btn { -webkit-appearance: none; appearance: none; background
 }
 
 @media (max-width: 1024px) and (min-width: 768px) {
-  [data-prehydrate] .view-project-btn { padding: 32px 96px 0px 96px; }
+  [data-prehydrate] .view-project-btn { padding: 44px 96px 0px 96px; }
   .view-project-wrapper { bottom: 8dvh !important; }
-  .view-project-btn { padding: 6px 36px 2px 36px; }
+  .view-project-btn {padding: 10px 44px 6px 44px;}
   .nav-menu { padding-bottom: 8px; }
   .arrow-svg { filter: drop-shadow(0 0px 14px rgba(0,0,0,0.6)); }
   .github-lottie { width: 2.4em !important; }

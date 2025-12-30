@@ -4,10 +4,10 @@ import { useProjectVisibility } from './context-providers/project-context';
 import { baseProjects } from './content-utility/component-loader';
 import { ProjectPane } from './project-pane';
 import { useSsrData } from './context-providers/ssr-data-context';
-import { seededShuffle } from './seed';
+import { orderProjectsTopTwoSeeded } from './seed/project-order';
 
 /* ===========================
-   Synthetic Drag & Exit Events
+   Synthetic Drag For Dynamic Component
    =========================== */
 declare global {
   interface DocumentEventMap {
@@ -34,7 +34,7 @@ const ScrollController = () => {
   const { seed = 12345 } = useSsrData() || {};
 
   // Shuffle once on mount; never recompute order during this session
-  const projectsRef = useRef(seededShuffle(baseProjects, seed));
+  const projectsRef = useRef(orderProjectsTopTwoSeeded(baseProjects, seed));
   const projects = projectsRef.current;
 
   // Keep DOM refs to each block for precise scrolling

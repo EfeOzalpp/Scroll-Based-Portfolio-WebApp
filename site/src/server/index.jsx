@@ -11,18 +11,18 @@ import { ChunkExtractor } from '@loadable/server';
 import { CacheProvider } from '@emotion/react';
 import { createEmotion } from './emotion';
 import { createProxyMiddleware } from 'http-proxy-middleware'; 
-import compression from 'compression';
 
+import compression from 'compression';
 import highScoreRoute from './highScoreRoute';
 
 import { SsrDataProvider } from '../utils/context-providers/ssr-data-context';
 import { prepareSsrData } from './prepareSsrData';
 import { ssrRegistry } from '../ssr/registry';
 import { routeRegistry } from '../ssr/route-registry';
+import { getEphemeralSeed } from './seed';
 
 import { buildHtmlOpen, buildHtmlClose } from './html';
 import { buildCriticalCss } from './cssPipeline';
-import { getEphemeralSeed } from './seed';
 
 import {
   resolveStatsFile,

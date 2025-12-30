@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import type { ProjectKey } from '../utils/content-utility/component-loader';
 
 export type SsrDescriptor = {
-  fetch: () => Promise<any>;
+  fetch: ((seed?: number) => Promise<any>);
   render: (data: any) => ReactNode;
   /** optional: build <link rel="preload"> tags for the head */
   buildPreloads?: (data: any) => string[];

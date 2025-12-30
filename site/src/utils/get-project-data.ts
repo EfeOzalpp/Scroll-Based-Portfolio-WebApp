@@ -3,7 +3,24 @@ import client from './sanity';
 
 const queries: Record<string, string> = {
   'data-viz': `*[_type=="mediaBlock" && slug.current=="data-viz"][0]{
-    mediaOne{ alt,image,video{ "webmUrl": webm.asset->url, "mp4Url": mp4.asset->url, poster } }
+    mediaOne{
+      alt,
+      image,
+      video{
+        "webmUrl": webm.asset->url,
+        "mp4Url": mp4.asset->url,
+        poster
+      }
+    },
+    mediaTwo{
+      alt,
+      image,
+      video{
+        "webmUrl": webm.asset->url,
+        "mp4Url": mp4.asset->url,
+        poster
+      }
+    }
   }`,
   'ice-scoop': `*[_type=="mediaBlock" && slug.current=="ice-scoop"][0]{
     mediaOne{ alt,image,video{ "webmUrl": webm.asset->url, "mp4Url": mp4.asset->url, poster } },
@@ -22,7 +39,7 @@ const queries: Record<string, string> = {
   }`,
   'climate-book': `*[
     _type == "imageDemanded" &&
-    title match "book-art-page-*"
+    title match "book-art-page*"
   ] | order(title asc) {
     title,
     alt,

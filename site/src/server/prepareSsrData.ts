@@ -1,22 +1,25 @@
 // src/server/prepareSsrData.ts
 import { baseProjects } from '../utils/content-utility/component-loader';
-import { seededShuffle } from '../utils/seed';
 import { ssrRegistry } from '../ssr/registry';
+import { orderProjectsTopTwoSeeded } from '../utils/seed/project-order';
 
 export async function prepareSsrData(seed: number, count = 3) {
-  const order = seededShuffle(baseProjects, seed);
   const preloaded: Record<string, any> = {};
-  let preloadLinks: string[] = [];
+  const preloadLinks: string[] = [];
 
-  const top = order.slice(0, count); // take first N
+  orderProjectsTopTwoSeeded(baseProjects, seed)
+  
+  const ordered = orderProjectsTopTwoSeeded(baseProjects, seed);
+  const top = ordered.slice(0, count);
+
   for (const proj of top) {
     const desc = ssrRegistry[proj.key];
     if (!desc?.fetch) continue;
 
-    const data = await desc.fetch();
+    // use the safer fetch calling pattern if any fetch needs seed:
+    const data = await (desc.fetch.length === 0 ? desc.fetch() : desc.fetch(seed));
     preloaded[proj.key] = { kind: proj.key, data };
-    // skip desc.buildPreloads() since you don’t want any <link rel="preload">
   }
 
-  return { seed, preloaded, preloadLinks }; // preloadLinks stays empty
+  return { seed, preloaded, preloadLinks };
 }
